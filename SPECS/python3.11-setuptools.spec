@@ -21,7 +21,7 @@
 Name:           python%{python3_pkgversion}-setuptools
 # When updating, update the bundled libraries versions bellow!
 Version:        65.5.1
-Release:        2%{?dist}
+Release:        2%{?dist}.1
 Summary:        Easily build and distribute Python packages
 # setuptools is MIT
 # appdirs is MIT
@@ -43,6 +43,13 @@ Source0:        %{pypi_source %{srcname} %{version}}
 
 # Some test deps are optional and either not desired or not available in Fedora, thus this patch removes them.
 Patch0:          Remove-optional-or-unpackaged-test-deps.patch
+
+# Security fix for CVE-2024-6345
+# Remote code execution via download functions in the package_index module
+# Tracking bug: https://bugzilla.redhat.com/show_bug.cgi?id=2297771
+# Upstream solution: https://github.com/pypa/setuptools/pull/4332
+# Patch simplified because upstream doesn't support SVN anymore.
+Patch1:         CVE-2024-6345.patch
 
 BuildArch:      noarch
 
@@ -230,39 +237,43 @@ PYTHONPATH=$(pwd) %pytest \
 
 
 %changelog
+* Wed Jul 24 2024 Lumír Balhar <lbalhar@redhat.com> - 65.5.1-2.1
+- Security fix for CVE-2024-6345
+Resolves: RHEL-50490
+
 * Mon Jan 30 2023 Charalampos Stratakis <cstratak@redhat.com> - 65.5.1-2
 - Disable bootstrap
 
 * Wed Oct 12 2022 Charalampos Stratakis <cstratak@redhat.com> - 65.5.1-1
 - Initial package
 - Fedora contributions by:
-      # Bill Nottingham <notting@fedoraproject.org>
-      # Charalampos Stratakis <cstratak@redhat.com>
-      # David Malcolm <dmalcolm@redhat.com>
-      # Dennis Gilmore <dennis@ausil.us>
-      # dmalcolm <dmalcolm@fedoraproject.org>
-      # Haikel Guemar <hguemar@fedoraproject.org>
-      # Ignacio Vazquez-Abrams <ivazquez@fedoraproject.org>
-      # Jesse Keating <jkeating@fedoraproject.org>
-      # Karolina Surma <ksurma@redhat.com>
-      # Kevin Fenzi <kevin@scrye.com>
-      # Konstantin Ryabitsev <icon@fedoraproject.org>
-      # Lumir Balhar <lbalhar@redhat.com>
-      # Matej Stuchlik <mstuchli@redhat.com>
-      # Michal Cyprian <mcyprian@redhat.com>
-      # Miro Hrončok <miro@hroncok.cz>
-      # Nils Philippsen <nils@redhat.com>
-      # Orion Poplawski <orion@cora.nwra.com>
-      # Petr Viktorin <pviktori@redhat.com>
-      # Pierre-Yves Chibon <pingou@pingoured.fr>
-      # Ralph Bean <rbean@redhat.com>
-      # Randy Barlow <randy@electronsweatshop.com>
-      # Robert Kuska <rkuska@redhat.com>
-      # Thomas Spura <thomas.spura@gmail.com>
-      # Tomáš Hrnčiar <thrnciar@redhat.com>
-      # Tomas Orsava <torsava@redhat.com>
-      # Tomas Radej <tradej@redhat.com>
-      # tomspur <tomspur@fedoraproject.org>
-      # Toshio Kuratomi <toshio@fedoraproject.org>
-      # Troy Dawson <tdawson@redhat.com>
-      # Ville Skyttä <scop@fedoraproject.org>
+      Bill Nottingham <notting@fedoraproject.org>
+      Charalampos Stratakis <cstratak@redhat.com>
+      David Malcolm <dmalcolm@redhat.com>
+      Dennis Gilmore <dennis@ausil.us>
+      dmalcolm <dmalcolm@fedoraproject.org>
+      Haikel Guemar <hguemar@fedoraproject.org>
+      Ignacio Vazquez-Abrams <ivazquez@fedoraproject.org>
+      Jesse Keating <jkeating@fedoraproject.org>
+      Karolina Surma <ksurma@redhat.com>
+      Kevin Fenzi <kevin@scrye.com>
+      Konstantin Ryabitsev <icon@fedoraproject.org>
+      Lumir Balhar <lbalhar@redhat.com>
+      Matej Stuchlik <mstuchli@redhat.com>
+      Michal Cyprian <mcyprian@redhat.com>
+      Miro Hrončok <miro@hroncok.cz>
+      Nils Philippsen <nils@redhat.com>
+      Orion Poplawski <orion@cora.nwra.com>
+      Petr Viktorin <pviktori@redhat.com>
+      Pierre-Yves Chibon <pingou@pingoured.fr>
+      Ralph Bean <rbean@redhat.com>
+      Randy Barlow <randy@electronsweatshop.com>
+      Robert Kuska <rkuska@redhat.com>
+      Thomas Spura <thomas.spura@gmail.com>
+      Tomáš Hrnčiar <thrnciar@redhat.com>
+      Tomas Orsava <torsava@redhat.com>
+      Tomas Radej <tradej@redhat.com>
+      tomspur <tomspur@fedoraproject.org>
+      Toshio Kuratomi <toshio@fedoraproject.org>
+      Troy Dawson <tdawson@redhat.com>
+      Ville Skyttä <scop@fedoraproject.org>
