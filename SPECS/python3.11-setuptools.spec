@@ -21,7 +21,7 @@
 Name:           python%{python3_pkgversion}-setuptools
 # When updating, update the bundled libraries versions bellow!
 Version:        65.5.1
-Release:        2%{?dist}.1
+Release:        3%{?dist}
 Summary:        Easily build and distribute Python packages
 # setuptools is MIT
 # appdirs is MIT
@@ -237,9 +237,9 @@ PYTHONPATH=$(pwd) %pytest \
 
 
 %changelog
-* Wed Jul 24 2024 Lumír Balhar <lbalhar@redhat.com> - 65.5.1-2.1
+* Wed Jul 24 2024 Lumír Balhar <lbalhar@redhat.com> - 65.5.1-3
 - Security fix for CVE-2024-6345
-Resolves: RHEL-50490
+Resolves: RHEL-49992
 
 * Mon Jan 30 2023 Charalampos Stratakis <cstratak@redhat.com> - 65.5.1-2
 - Disable bootstrap
