@@ -21,7 +21,7 @@
 Name:           python%{python3_pkgversion}-setuptools
 # When updating, update the bundled libraries versions bellow!
 Version:        65.5.1
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        Easily build and distribute Python packages
 # setuptools is MIT
 # appdirs is MIT
@@ -178,6 +178,10 @@ mkdir -p %{buildroot}%{python_wheel_dir}
 install -p dist/%{python_wheel_name} -t %{buildroot}%{python_wheel_dir}
 %endif
 
+# Make sure the INSTALLER is not pip and remove RECORD
+echo rpm > %{buildroot}%{python3_sitelib}/setuptools-%{version}.dist-info/INSTALLER
+rm %{buildroot}%{python3_sitelib}/setuptools-%{version}.dist-info/RECORD
+
 %check
 
 # Regression tests
@@ -243,9 +247,13 @@ PYTHONPATH=$(pwd) %pytest \
 
 
 %changelog
-* Fri Jul 25 2025 Tomáš Hrnčiar <thrnciar@redhat.com> - 65.5.1-4
+* Wed Jul 02 2025 Tomáš Hrnčiar <thrnciar@redhat.com> - 65.5.1-5
 - Security fix for CVE-2025-47273
-Resolves: RHEL-101113
+Resolves: RHEL-101116
+
+* Fri Mar 07 2025 Tomáš Hrnčiar <thrnciar@redhat.com> - 65.5.1-4
+- Make sure the INSTALLER is not pip and remove RECORD
+Resolves: RHEL-82611
 
 * Wed Jul 24 2024 Lumír Balhar <lbalhar@redhat.com> - 65.5.1-3
 - Security fix for CVE-2024-6345
